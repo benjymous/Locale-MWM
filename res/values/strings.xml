@@ -22,5 +22,8 @@
 
     <!-- Hint text in the toast edit text -->
     <string name="message_hint">MetaWatch notification message</string>
+    
+    <!-- Hint text in the toast edit text -->
+    <string name="title_hint">MetaWatch notification title</string>
 
 </resources>

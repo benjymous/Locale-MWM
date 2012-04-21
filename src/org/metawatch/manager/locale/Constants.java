@@ -35,7 +35,7 @@ public final class Constants
     /**
      * Flag to enable logcat messages.
      */
-    public static final boolean IS_LOGGABLE = false;
+    public static final boolean IS_LOGGABLE = true;
 
     /**
      * Flag to enable runtime checking of method parameters

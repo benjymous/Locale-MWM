@@ -33,9 +33,16 @@ public final class PluginBundleManager
     /**
      * Type: {@code String}
      * <p>
-     * String message to display in a Toast message.
+     * String message to display in a notification message.
      */
-    public static final String BUNDLE_EXTRA_STRING_MESSAGE = "com.yourcompany.yourapp.extra.STRING_MESSAGE"; //$NON-NLS-1$
+    public static final String BUNDLE_EXTRA_STRING_MESSAGE = "org.metawatch.manager.locale.extra.STRING_MESSAGE"; //$NON-NLS-1$
+    
+    /**
+     * Type: {@code String}
+     * <p>
+     * String title to display in a notification message.
+     */
+    public static final String BUNDLE_EXTRA_STRING_TITLE = "org.metawatch.manager.locale.extra.STRING_TITLE"; //$NON-NLS-1$
     
     /**
      * Type: {@code int}
@@ -75,6 +82,14 @@ public final class PluginBundleManager
             }
             return false;
         }
+        if (!bundle.containsKey(BUNDLE_EXTRA_STRING_TITLE))
+        {
+            if (Constants.IS_LOGGABLE)
+            {
+                Log.e(Constants.LOG_TAG, String.format("bundle must contain extra %s", BUNDLE_EXTRA_STRING_TITLE)); //$NON-NLS-1$
+            }
+            return false;
+        }
         if (!bundle.containsKey(BUNDLE_EXTRA_INT_VERSION_CODE))
         {
             if (Constants.IS_LOGGABLE)
@@ -89,7 +104,7 @@ public final class PluginBundleManager
          * error message is more useful. (E.g. the caller will see what extras are missing, rather than just a message that there
          * is the wrong number).
          */
-        if (2 != bundle.keySet().size())
+        if (3 != bundle.keySet().size())
         {
             if (Constants.IS_LOGGABLE)
             {

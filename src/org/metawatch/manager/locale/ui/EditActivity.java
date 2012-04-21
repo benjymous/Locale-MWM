@@ -103,6 +103,7 @@ public final class EditActivity extends Activity
             if (PluginBundleManager.isBundleValid(forwardedBundle))
             {
                 ((EditText) findViewById(android.R.id.text1)).setText(forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_MESSAGE));
+                ((EditText) findViewById(android.R.id.text2)).setText(forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_TITLE));
             }
         }
         /*
@@ -124,6 +125,7 @@ public final class EditActivity extends Activity
         else
         {
             final String message = ((EditText) findViewById(android.R.id.text1)).getText().toString();
+            final String title = ((EditText) findViewById(android.R.id.text2)).getText().toString();
 
             /*
              * If the message is of 0 length, then there isn't a setting to save.
@@ -149,19 +151,29 @@ public final class EditActivity extends Activity
                 final Bundle resultBundle = new Bundle();
                 resultBundle.putInt(PluginBundleManager.BUNDLE_EXTRA_INT_VERSION_CODE, Constants.getVersionCode(this));
                 resultBundle.putString(PluginBundleManager.BUNDLE_EXTRA_STRING_MESSAGE, message);
+                resultBundle.putString(PluginBundleManager.BUNDLE_EXTRA_STRING_TITLE, title);
 
                 resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE, resultBundle);
 
                 /*
                  * This is the blurb concisely describing what your setting's state is. This is simply used for display in the UI.
                  */
-                if (message.length() > getResources().getInteger(org.metawatch.manager.locale.R.integer.twofortyfouram_locale_maximum_blurb_length))
+                
+                StringBuilder builder = new StringBuilder();
+                
+                if (title.length() > 0 ) {
+                	builder.append(title);
+                	builder.append(" : ");
+                }
+                builder.append(message);
+                
+                if (builder.length() > getResources().getInteger(org.metawatch.manager.locale.R.integer.twofortyfouram_locale_maximum_blurb_length))
                 {
-                    resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, message.substring(0, getResources().getInteger(org.metawatch.manager.locale.R.integer.twofortyfouram_locale_maximum_blurb_length)));
+                    resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, builder.toString().substring(0, getResources().getInteger(org.metawatch.manager.locale.R.integer.twofortyfouram_locale_maximum_blurb_length)));
                 }
                 else
                 {
-                    resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, message);
+                    resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, builder.toString());
                 }
 
                 setResult(RESULT_OK, resultIntent);

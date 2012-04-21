@@ -67,11 +67,16 @@ public final class FireReceiver extends BroadcastReceiver
          */
         if (PluginBundleManager.isBundleValid(bundle))
         {
+        	 if (Constants.IS_LOGGABLE)
+             {
+                 Log.d(Constants.LOG_TAG, "sending notification"); //$NON-NLS-1$
+             }
+        	
             Toast.makeText(context, bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_MESSAGE), Toast.LENGTH_LONG).show();
         	
         	Intent broadcast = new Intent("org.metawatch.manager.NOTIFICATION");
     		Bundle b = new Bundle();
-    		b.putString("title", "Locale");
+    		b.putString("title", bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_TITLE));
     		b.putString("text", bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_MESSAGE));
 			b.putInt("vibrate_on", 500);
 			b.putInt("vibrate_off", 200);
@@ -81,6 +86,13 @@ public final class FireReceiver extends BroadcastReceiver
     		context.sendBroadcast(broadcast);
     		
         	//
+        }
+        else
+        {
+            if (Constants.IS_LOGGABLE)
+            {
+                Log.d(Constants.LOG_TAG, "bundle invalid"); //$NON-NLS-1$
+            }
         }
     }
 }
