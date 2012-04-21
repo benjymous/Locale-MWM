@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="icons">
+        <item>home</item>
+        <item>office</item>
+        <item>outdoors</item>
+        <item>car</item>
+        <item>bed</item>
+    </string-array>
+    
+</resources>
