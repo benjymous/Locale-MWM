@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -130,6 +131,30 @@ public final class EditActivity extends Activity
             {
                 ((EditText) findViewById(R.id.text1)).setText(forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_MESSAGE));
                 ((EditText) findViewById(R.id.text2)).setText(forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_TITLE));
+                ((EditText) findViewById(R.id.text3)).setText(forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_ID));
+                ((EditText) findViewById(R.id.text4)).setText(forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_LABEL));
+
+                String type = forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_TYPE);
+                
+                if(type.equals("notification")) {
+                	((RadioButton) findViewById(R.id.radioButton1)).setChecked(true);
+                	((RadioButton) findViewById(R.id.radioButton2)).setChecked(false);
+                }
+                else {
+                	((RadioButton) findViewById(R.id.radioButton1)).setChecked(false);
+                	((RadioButton) findViewById(R.id.radioButton2)).setChecked(true);
+                }
+                
+                String[] iconNames = getResources().getStringArray(R.array.icons);
+                String icon = forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_ICON);
+                
+                for(int i=0; i<iconNames.length; ++i) {
+                	if(icon.equals(iconNames[i])) {
+                		s1.setSelection(i);
+                		break;
+                	}
+                }
+                
             }
         }
         /*
@@ -152,59 +177,89 @@ public final class EditActivity extends Activity
         {
             final String message = ((EditText) findViewById(R.id.text1)).getText().toString();
             final String title = ((EditText) findViewById(R.id.text2)).getText().toString();
+            
+            final String widgetId = ((EditText) findViewById(R.id.text3)).getText().toString();
+            final String widgetLabel = ((EditText) findViewById(R.id.text4)).getText().toString();
+
+            final String widgetIcon = ((Spinner) findViewById(R.id.spinner1)).getSelectedItem().toString();
+            
+            final String type = ((RadioButton) findViewById(R.id.radioButton1)).isChecked() ? "notification" : "widget";
+            
+           
+            /*
+             * This is the result Intent to Locale
+             */
+            final Intent resultIntent = new Intent();
 
             /*
-             * If the message is of 0 length, then there isn't a setting to save.
+             * This extra is the data to ourselves: either for the Activity or the BroadcastReceiver. Note that anything
+             * placed in this Bundle must be available to Locale's class loader. So storing String, int, and other standard
+             * objects will work just fine. However Parcelable objects must also be Serializable. And Serializable objects
+             * must be standard Java objects (e.g. a private subclass to this plug-in cannot be stored in the Bundle, as
+             * Locale's classloader will not recognize it).
              */
-            if (0 == message.length())
-            {
-                setResult(RESULT_CANCELED);
-            }
-            else
-            {
-                /*
-                 * This is the result Intent to Locale
-                 */
-                final Intent resultIntent = new Intent();
+            final Bundle resultBundle = new Bundle();
+            resultBundle.putInt(PluginBundleManager.BUNDLE_EXTRA_INT_VERSION_CODE, Constants.getVersionCode(this));
+            
+            resultBundle.putString(PluginBundleManager.BUNDLE_EXTRA_STRING_TYPE, type);
+            
+            resultBundle.putString(PluginBundleManager.BUNDLE_EXTRA_STRING_MESSAGE, message);
+            resultBundle.putString(PluginBundleManager.BUNDLE_EXTRA_STRING_TITLE, title);
+            
+            resultBundle.putString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_ID, widgetId);
+            resultBundle.putString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_LABEL, widgetLabel);
+            resultBundle.putString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_ICON, widgetIcon);
 
-                /*
-                 * This extra is the data to ourselves: either for the Activity or the BroadcastReceiver. Note that anything
-                 * placed in this Bundle must be available to Locale's class loader. So storing String, int, and other standard
-                 * objects will work just fine. However Parcelable objects must also be Serializable. And Serializable objects
-                 * must be standard Java objects (e.g. a private subclass to this plug-in cannot be stored in the Bundle, as
-                 * Locale's classloader will not recognize it).
-                 */
-                final Bundle resultBundle = new Bundle();
-                resultBundle.putInt(PluginBundleManager.BUNDLE_EXTRA_INT_VERSION_CODE, Constants.getVersionCode(this));
-                resultBundle.putString(PluginBundleManager.BUNDLE_EXTRA_STRING_MESSAGE, message);
-                resultBundle.putString(PluginBundleManager.BUNDLE_EXTRA_STRING_TITLE, title);
+            resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE, resultBundle);
 
-                resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE, resultBundle);
-
-                /*
-                 * This is the blurb concisely describing what your setting's state is. This is simply used for display in the UI.
-                 */
-                
-                StringBuilder builder = new StringBuilder();
-                
+            /*
+             * This is the blurb concisely describing what your setting's state is. This is simply used for display in the UI.
+             */
+            
+            StringBuilder builder = new StringBuilder();
+            
+            builder.append(type);
+            builder.append(" : ");
+            
+            if(type.equals("notification")) {
+            
                 if (title.length() > 0 ) {
                 	builder.append(title);
                 	builder.append(" : ");
                 }
                 builder.append(message);
                 
-                if (builder.length() > getResources().getInteger(org.metawatch.manager.locale.R.integer.twofortyfouram_locale_maximum_blurb_length))
+                if (0 == message.length())
                 {
-                    resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, builder.toString().substring(0, getResources().getInteger(org.metawatch.manager.locale.R.integer.twofortyfouram_locale_maximum_blurb_length)));
+                    setResult(RESULT_CANCELED);
                 }
-                else
-                {
-                    resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, builder.toString());
-                }
-
-                setResult(RESULT_OK, resultIntent);
+        
             }
+            else {
+            	builder.append(widgetIcon);
+            	builder.append(" : ");
+            	builder.append(widgetLabel);
+            	
+                if (0 == widgetIcon.length() || 0 == widgetLabel.length())
+                {
+                    setResult(RESULT_CANCELED);
+                }
+                
+                
+            }
+            
+            if (builder.length() > getResources().getInteger(org.metawatch.manager.locale.R.integer.twofortyfouram_locale_maximum_blurb_length))
+            {
+                resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, builder.toString().substring(0, getResources().getInteger(org.metawatch.manager.locale.R.integer.twofortyfouram_locale_maximum_blurb_length)));
+            }
+            else
+            {
+                resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, builder.toString());
+            }
+
+            setResult(RESULT_OK, resultIntent);
         }
+    
 
         super.finish();
     }

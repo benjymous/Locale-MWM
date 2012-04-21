@@ -10,7 +10,6 @@
 package org.metawatch.manager.locale.bundle;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 
 import org.metawatch.manager.locale.Constants;
@@ -33,6 +32,13 @@ public final class PluginBundleManager
     /**
      * Type: {@code String}
      * <p>
+     * String "widget" or "notification"
+     */
+    public static final String BUNDLE_EXTRA_STRING_TYPE = "org.metawatch.manager.locale.extra.STRING_TYPE"; //$NON-NLS-1$
+    
+    /**
+     * Type: {@code String}
+     * <p>
      * String message to display in a notification message.
      */
     public static final String BUNDLE_EXTRA_STRING_MESSAGE = "org.metawatch.manager.locale.extra.STRING_MESSAGE"; //$NON-NLS-1$
@@ -43,6 +49,28 @@ public final class PluginBundleManager
      * String title to display in a notification message.
      */
     public static final String BUNDLE_EXTRA_STRING_TITLE = "org.metawatch.manager.locale.extra.STRING_TITLE"; //$NON-NLS-1$
+    
+    /**
+     * Type: {@code String}
+     * <p>
+     * String id of widget.
+     */
+    public static final String BUNDLE_EXTRA_STRING_WIDGET_ID = "org.metawatch.manager.locale.extra.STRING_WIDGET_ID"; //$NON-NLS-1$
+
+    /**
+     * Type: {@code String}
+     * <p>
+     * String text label of widget.
+     */
+    public static final String BUNDLE_EXTRA_STRING_WIDGET_LABEL = "org.metawatch.manager.locale.extra.STRING_WIDGET_LABEL"; //$NON-NLS-1$
+    
+    /**
+     * Type: {@code String}
+     * <p>
+     * String icon of widget.
+     */
+    public static final String BUNDLE_EXTRA_STRING_WIDGET_ICON = "org.metawatch.manager.locale.extra.STRING_WIDGET_ICON"; //$NON-NLS-1$
+    
     
     /**
      * Type: {@code int}
@@ -82,11 +110,43 @@ public final class PluginBundleManager
             }
             return false;
         }
+        if (!bundle.containsKey(BUNDLE_EXTRA_STRING_TYPE))
+        {
+            if (Constants.IS_LOGGABLE)
+            {
+                Log.e(Constants.LOG_TAG, String.format("bundle must contain extra %s", BUNDLE_EXTRA_STRING_TYPE)); //$NON-NLS-1$
+            }
+            return false;
+        }
         if (!bundle.containsKey(BUNDLE_EXTRA_STRING_TITLE))
         {
             if (Constants.IS_LOGGABLE)
             {
                 Log.e(Constants.LOG_TAG, String.format("bundle must contain extra %s", BUNDLE_EXTRA_STRING_TITLE)); //$NON-NLS-1$
+            }
+            return false;
+        }
+        if (!bundle.containsKey(BUNDLE_EXTRA_STRING_WIDGET_ID))
+        {
+            if (Constants.IS_LOGGABLE)
+            {
+                Log.e(Constants.LOG_TAG, String.format("bundle must contain extra %s", BUNDLE_EXTRA_STRING_WIDGET_ID)); //$NON-NLS-1$
+            }
+            return false;
+        }
+        if (!bundle.containsKey(BUNDLE_EXTRA_STRING_WIDGET_LABEL))
+        {
+            if (Constants.IS_LOGGABLE)
+            {
+                Log.e(Constants.LOG_TAG, String.format("bundle must contain extra %s", BUNDLE_EXTRA_STRING_WIDGET_LABEL)); //$NON-NLS-1$
+            }
+            return false;
+        }
+        if (!bundle.containsKey(BUNDLE_EXTRA_STRING_WIDGET_ICON))
+        {
+            if (Constants.IS_LOGGABLE)
+            {
+                Log.e(Constants.LOG_TAG, String.format("bundle must contain extra %s", BUNDLE_EXTRA_STRING_WIDGET_ICON)); //$NON-NLS-1$
             }
             return false;
         }
@@ -104,24 +164,12 @@ public final class PluginBundleManager
          * error message is more useful. (E.g. the caller will see what extras are missing, rather than just a message that there
          * is the wrong number).
          */
-        if (3 != bundle.keySet().size())
+        if (7 != bundle.keySet().size())
         {
             if (Constants.IS_LOGGABLE)
             {
-                Log.e(Constants.LOG_TAG, String.format("bundle must contain 2 keys, but currently contains %d keys: %s", Integer.valueOf(bundle.keySet().size()), bundle.keySet() //$NON-NLS-1$
+                Log.e(Constants.LOG_TAG, String.format("bundle must contain 7 keys, but currently contains %d keys: %s", Integer.valueOf(bundle.keySet().size()), bundle.keySet() //$NON-NLS-1$
                                                                                                                                                                        .toString()));
-            }
-            return false;
-        }
-
-        /*
-         * Make sure the extra isn't null or empty
-         */
-        if (TextUtils.isEmpty(bundle.getString(BUNDLE_EXTRA_STRING_MESSAGE)))
-        {
-            if (Constants.IS_LOGGABLE)
-            {
-                Log.e(Constants.LOG_TAG, String.format("bundle extra %s appears to be null or empty.  It must be a non-empty string", BUNDLE_EXTRA_STRING_MESSAGE)); //$NON-NLS-1$
             }
             return false;
         }
