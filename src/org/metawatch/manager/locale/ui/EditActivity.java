@@ -102,8 +102,8 @@ public final class EditActivity extends Activity
 
             if (PluginBundleManager.isBundleValid(forwardedBundle))
             {
-                ((EditText) findViewById(android.R.id.text1)).setText(forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_MESSAGE));
-                ((EditText) findViewById(android.R.id.text2)).setText(forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_TITLE));
+                ((EditText) findViewById(R.id.text1)).setText(forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_MESSAGE));
+                ((EditText) findViewById(R.id.text2)).setText(forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_TITLE));
             }
         }
         /*
@@ -124,8 +124,8 @@ public final class EditActivity extends Activity
         }
         else
         {
-            final String message = ((EditText) findViewById(android.R.id.text1)).getText().toString();
-            final String title = ((EditText) findViewById(android.R.id.text2)).getText().toString();
+            final String message = ((EditText) findViewById(R.id.text1)).getText().toString();
+            final String title = ((EditText) findViewById(R.id.text2)).getText().toString();
 
             /*
              * If the message is of 0 length, then there isn't a setting to save.
