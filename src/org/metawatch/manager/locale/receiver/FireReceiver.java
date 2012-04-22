@@ -124,8 +124,10 @@ public final class FireReceiver extends BroadcastReceiver {
 					Canvas canvas = new Canvas(bitmap);
 					canvas.drawColor(Color.WHITE);
 					
-					canvas.drawBitmap(iconBmp, 2, 0, null);					
-					canvas.drawText(widgetLabel, 8, 15, paintSmall);
+					int y = widgetLabel.length()==0 ? 3 : 0;
+					
+					canvas.drawBitmap(iconBmp, 2, y, null);					
+					canvas.drawText(widgetLabel, 8, 16, paintSmall);
 					
 					Intent i = createUpdateIntent(bitmap, "localeMWM_"+widgetId+"_16_16", "Locale Plugin Widget (16x16)", 1);
 					context.sendBroadcast(i);
@@ -139,7 +141,9 @@ public final class FireReceiver extends BroadcastReceiver {
 					Canvas canvas = new Canvas(bitmap);
 					canvas.drawColor(Color.WHITE);
 					
-					canvas.drawBitmap(iconBmp, 0, 3, null);
+					int y = widgetLabel.length()==0 ? 7 : 3;
+					
+					canvas.drawBitmap(iconBmp, 0, y, null);
 					canvas.drawText(widgetLabel, 12, 30, paintSmall);
 					
 					Intent i = createUpdateIntent(bitmap, "localeMWM_"+widgetId+"_24_32", "Locale Plugin Widget (24x32)", 1);
