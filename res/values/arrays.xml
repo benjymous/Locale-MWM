@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="icons">
+        <item>loud</item>
+        <item>normal</item>
+        <item>quiet</item>
+        <item>silent</item>
+        <item>vibrate</item>
         <item>home</item>
         <item>office</item>
         <item>outdoors</item>

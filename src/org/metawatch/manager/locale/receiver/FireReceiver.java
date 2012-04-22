@@ -19,9 +19,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.Paint.Align;
 import android.os.Bundle;
+import android.text.TextPaint;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.metawatch.manager.locale.Constants;
 import org.metawatch.manager.locale.bundle.BundleScrubber;
@@ -33,6 +35,8 @@ import org.metawatch.manager.locale.ui.EditActivity;
  */
 public final class FireReceiver extends BroadcastReceiver {
 
+	static Typeface typeface = null; 
+	
 	/**
 	 * @param context
 	 *            {@inheritDoc}.
@@ -100,6 +104,17 @@ public final class FireReceiver extends BroadcastReceiver {
 			else if (type.equals("widget")) {
 				final String icon = bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_ICON);
 				final String widgetId = bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_ID);
+				final String widgetLabel = bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_LABEL);
+				
+				if (typeface==null) {
+					typeface = Typeface.createFromAsset(context.getAssets(), "metawatch_8pt_5pxl_CAPS.ttf");
+				}
+				
+				TextPaint paintSmall = new TextPaint();
+				paintSmall.setColor(Color.BLACK);
+				paintSmall.setTextSize(8);
+				paintSmall.setTypeface(typeface);
+				paintSmall.setTextAlign(Align.CENTER);
 				
 				// Create 16x16 widget
 				{
@@ -109,7 +124,8 @@ public final class FireReceiver extends BroadcastReceiver {
 					Canvas canvas = new Canvas(bitmap);
 					canvas.drawColor(Color.WHITE);
 					
-					canvas.drawBitmap(iconBmp, 2, 0, null);
+					canvas.drawBitmap(iconBmp, 2, 0, null);					
+					canvas.drawText(widgetLabel, 8, 15, paintSmall);
 					
 					Intent i = createUpdateIntent(bitmap, "localeMWM_"+widgetId+"_16_16", "Locale Plugin Widget (16x16)", 1);
 					context.sendBroadcast(i);
@@ -124,6 +140,7 @@ public final class FireReceiver extends BroadcastReceiver {
 					canvas.drawColor(Color.WHITE);
 					
 					canvas.drawBitmap(iconBmp, 0, 3, null);
+					canvas.drawText(widgetLabel, 12, 30, paintSmall);
 					
 					Intent i = createUpdateIntent(bitmap, "localeMWM_"+widgetId+"_24_32", "Locale Plugin Widget (24x32)", 1);
 					context.sendBroadcast(i);
