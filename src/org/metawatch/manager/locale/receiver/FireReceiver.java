@@ -9,6 +9,10 @@
 
 package org.metawatch.manager.locale.receiver;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -55,108 +59,107 @@ public final class FireReceiver extends BroadcastReceiver {
 		 * malformed Intent. And since Locale applies settings in the background, the plug-in definitely shouldn't crash in the
 		 * background.
 		 */
+		
+		Log.d(Constants.LOG_TAG, "FireReceiver.onReceive(): received intent, action='"+intent.getAction()+"'");
 
 		/*
 		 * Locale guarantees that the Intent action will be ACTION_FIRE_SETTING
 		 */
-		if (!com.twofortyfouram.locale.Intent.ACTION_FIRE_SETTING.equals(intent.getAction()))
+		if (com.twofortyfouram.locale.Intent.ACTION_FIRE_SETTING.equals(intent.getAction()))
 		{
-			if (Constants.IS_LOGGABLE)
+			/*
+			 * A hack to prevent a private serializable classloader attack
+			 */
+			BundleScrubber.scrub(intent);
+			BundleScrubber.scrub(intent.getBundleExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE));
+	
+			final Bundle bundle = intent.getBundleExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE);
+	
+			/*
+			 * Final verification of the plug-in Bundle before firing the setting.
+			 */
+			if (PluginBundleManager.isBundleValid(bundle))
 			{
-				Log.e(Constants.LOG_TAG, String.format("Received unexpected Intent action %s", intent.getAction())); //$NON-NLS-1$
-			}
-			return;
-		}
-
-		/*
-		 * A hack to prevent a private serializable classloader attack
-		 */
-		BundleScrubber.scrub(intent);
-		BundleScrubber.scrub(intent.getBundleExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE));
-
-		final Bundle bundle = intent.getBundleExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE);
-
-		/*
-		 * Final verification of the plug-in Bundle before firing the setting.
-		 */
-		if (PluginBundleManager.isBundleValid(bundle))
-		{
-			if (Constants.IS_LOGGABLE)
-			{
-				Log.d(Constants.LOG_TAG, "sending notification"); //$NON-NLS-1$
-			}
-
-			final String type = bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_TYPE);
-
-			if (type.equals("notification")) 
-			{
-				Intent broadcast = new Intent("org.metawatch.manager.NOTIFICATION");
-				Bundle b = new Bundle();
-				b.putString("title", bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_TITLE));
-				b.putString("text", bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_MESSAGE));
-				b.putInt("vibrate_on", 500);
-				b.putInt("vibrate_off", 200);
-				b.putInt("vibrate_cycles", 2);
-				broadcast.putExtras(b);
-
-				context.sendBroadcast(broadcast);
-			}
-			else if (type.equals("widget")) {
-				final String icon = bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_ICON);
-				final String widgetId = bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_ID);
-				final String widgetLabel = bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_LABEL);
-				
-				if (typeface==null) {
-					typeface = Typeface.createFromAsset(context.getAssets(), "metawatch_8pt_5pxl_CAPS.ttf");
-				}
-				
-				TextPaint paintSmall = new TextPaint();
-				paintSmall.setColor(Color.BLACK);
-				paintSmall.setTextSize(8);
-				paintSmall.setTypeface(typeface);
-				paintSmall.setTextAlign(Align.CENTER);
-				
-				// Create 16x16 widget
+				if (Constants.IS_LOGGABLE)
 				{
-					Bitmap iconBmp = loadBitmapFromAssets(context, icon+"_10.bmp");
+					Log.d(Constants.LOG_TAG, "sending notification"); //$NON-NLS-1$
+				}
+	
+				final String type = bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_TYPE);
+	
+				if (type.equals("notification")) 
+				{
+					Intent broadcast = new Intent("org.metawatch.manager.NOTIFICATION");
+					Bundle b = new Bundle();
+					b.putString("title", bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_TITLE));
+					b.putString("text", bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_MESSAGE));
+					b.putInt("vibrate_on", 500);
+					b.putInt("vibrate_off", 200);
+					b.putInt("vibrate_cycles", 2);
+					broadcast.putExtras(b);
+	
+					context.sendBroadcast(broadcast);
+				}
+				else if (type.equals("widget")) {
+					final String icon = bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_ICON);
+					final String widgetId = bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_ID);
+					final String widgetLabel = bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_LABEL);
 					
-					Bitmap bitmap = Bitmap.createBitmap(16, 16, Bitmap.Config.RGB_565);
-					Canvas canvas = new Canvas(bitmap);
-					canvas.drawColor(Color.WHITE);
-					
-					int y = widgetLabel.length()==0 ? 3 : 0;
-					
-					canvas.drawBitmap(iconBmp, 2, y, null);					
-					canvas.drawText(widgetLabel, 8, 16, paintSmall);
-					
-					Intent i = createUpdateIntent(bitmap, "localeMWM_"+widgetId+"_16_16", "Locale Plugin Widget (16x16)", 1);
-					context.sendBroadcast(i);
+					createAndSendWidget(context, icon, widgetId, widgetLabel);
+					cacheWidget(context, icon, widgetId, widgetLabel);
 				}
 				
-				// Create 24x32 widget
+			}
+			else
+			{
+				if (Constants.IS_LOGGABLE)
 				{
-					Bitmap iconBmp = loadBitmapFromAssets(context, icon+".bmp");
-					
-					Bitmap bitmap = Bitmap.createBitmap(24, 32, Bitmap.Config.RGB_565);
-					Canvas canvas = new Canvas(bitmap);
-					canvas.drawColor(Color.WHITE);
-					
-					int y = widgetLabel.length()==0 ? 7 : 3;
-					
-					canvas.drawBitmap(iconBmp, 0, y, null);
-					canvas.drawText(widgetLabel, 12, 30, paintSmall);
-					
-					Intent i = createUpdateIntent(bitmap, "localeMWM_"+widgetId+"_24_32", "Locale Plugin Widget (24x32)", 1);
-					context.sendBroadcast(i);
+					Log.d(Constants.LOG_TAG, "bundle invalid"); //$NON-NLS-1$
 				}
 			}
-			
+		
 		}
-		else
+		else if(intent.getAction().equals("org.metawatch.manager.REFRESH_WIDGET_REQUEST"))
 		{
-			if (Constants.IS_LOGGABLE)
+			Bundle bundle = intent.getExtras();
+			boolean getPreviews = bundle.containsKey("org.metawatch.manager.get_previews");
+			if (getPreviews)
 			{
-				Log.d(Constants.LOG_TAG, "bundle invalid"); //$NON-NLS-1$
+				Log.d(Constants.LOG_TAG, "get widget previews");
+				
+				File cacheDir = context.getCacheDir();
+				
+				File[] files = cacheDir.listFiles();
+
+				for (File file : files) {
+					FileInputStream fis;
+					try {
+						fis = new FileInputStream(file);
+						StringBuffer fileContent = new StringBuffer("");
+
+						byte[] buffer = new byte[1024];
+						int length;
+						while ((length = fis.read(buffer)) != -1) {
+						    fileContent.append(new String(buffer));
+						}
+						
+						String data = fileContent.toString();
+						Log.d(Constants.LOG_TAG, "data: "+data);
+						
+						String[] sections = data.split("\\|");
+						if(sections.length == 3)
+						{
+							createAndSendWidget(context, sections[0], sections[1], sections[2]);
+						}
+					} 
+					catch (FileNotFoundException e)
+					{
+					} 
+					catch (IOException e) 
+					{
+					}
+
+				}
 			}
 		}
 	}
@@ -200,5 +203,77 @@ public final class FireReceiver extends BroadcastReceiver {
 		intent.putExtras(b);
 
 		return intent;
+	}
+	
+	private static void createAndSendWidget(Context context, String icon, String id, String label) {
+		
+		Log.d(Constants.LOG_TAG, "widget: icon:"+icon+" id:"+id+" label:"+label);
+		
+		if (typeface==null) {
+			typeface = Typeface.createFromAsset(context.getAssets(), "metawatch_8pt_5pxl_CAPS.ttf");
+		}
+		
+		TextPaint paintSmall = new TextPaint();
+		paintSmall.setColor(Color.BLACK);
+		paintSmall.setTextSize(8);
+		paintSmall.setTypeface(typeface);
+		paintSmall.setTextAlign(Align.CENTER);
+		
+		// Create 16x16 widget
+		{
+			Bitmap iconBmp = loadBitmapFromAssets(context, icon+"_10.bmp");
+			
+			Bitmap bitmap = Bitmap.createBitmap(16, 16, Bitmap.Config.RGB_565);
+			Canvas canvas = new Canvas(bitmap);
+			canvas.drawColor(Color.WHITE);
+			
+			int y = label.length()==0 ? 3 : 0;
+			
+			canvas.drawBitmap(iconBmp, 2, y, null);					
+			canvas.drawText(label, 8, 16, paintSmall);
+			
+			Intent i = createUpdateIntent(bitmap, "localeMWM_"+id+"_16_16", "Locale Plugin Widget (16x16)", 1);
+			context.sendBroadcast(i);
+		}
+		
+		// Create 24x32 widget
+		{
+			Bitmap iconBmp = loadBitmapFromAssets(context, icon+".bmp");
+			
+			Bitmap bitmap = Bitmap.createBitmap(24, 32, Bitmap.Config.RGB_565);
+			Canvas canvas = new Canvas(bitmap);
+			canvas.drawColor(Color.WHITE);
+			
+			int y = label.length()==0 ? 7 : 3;
+			
+			canvas.drawBitmap(iconBmp, 0, y, null);
+			canvas.drawText(label, 12, 30, paintSmall);
+			
+			Intent i = createUpdateIntent(bitmap, "localeMWM_"+id+"_24_32", "Locale Plugin Widget (24x32)", 1);
+			context.sendBroadcast(i);
+		}
+	}
+	
+	private static synchronized void cacheWidget(Context context, String icon, String id, String label) {
+		File file = new File(context.getCacheDir(), id);
+		FileOutputStream fos;
+		try {
+			fos = new FileOutputStream(file);
+			StringBuilder cachetext = new StringBuilder();
+			cachetext.append(icon);
+			cachetext.append("|");
+			cachetext.append(id);
+			cachetext.append("|");
+			cachetext.append(label);
+			fos.write(cachetext.toString().getBytes());
+			fos.close();
+		} 
+		catch (FileNotFoundException e) 
+		{
+		} 
+		catch (IOException e) 
+		{
+		}
+
 	}
 }

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-** Copyright 2012 two forty four a.m. LLC <http://www.twofortyfouram.com>
-**
 ** Licensed under the Apache License, Version 2.0 (the "License");
 ** you may not use this file except in compliance with the License.
 ** You may obtain a copy of the License at <http://www.apache.org/licenses/LICENSE-2.0>
@@ -104,6 +102,11 @@
             <!-- this Intent filter allows the plug-in to discovered by Locale -->
             <intent-filter>
                 <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
+            </intent-filter>
+            
+            <!-- allow re-sending of cached widgets -->
+            <intent-filter >
+                <action android:name="org.metawatch.manager.REFRESH_WIDGET_REQUEST" />
             </intent-filter>
         </receiver>
     </application>
