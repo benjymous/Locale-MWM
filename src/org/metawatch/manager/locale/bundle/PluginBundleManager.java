@@ -192,15 +192,15 @@ public final class PluginBundleManager
          * error message is more useful. (E.g. the caller will see what extras are missing, rather than just a message that there
          * is the wrong number).
          */
-        //if (11 != bundle.keySet().size())
-        //{
-        //    if (Constants.IS_LOGGABLE)
-        //    {
-        //        Log.e(Constants.LOG_TAG, String.format("bundle must contain 11 keys, but currently contains %d keys: %s", Integer.valueOf(bundle.keySet().size()), bundle.keySet() //$NON-NLS-1$
-        //                                                                                                                                                               .toString()));
-        //    }
-        //    return false;
-        //}
+        if (11 != bundle.keySet().size())
+        {
+            if (Constants.IS_LOGGABLE)
+            {
+                Log.e(Constants.LOG_TAG, String.format("bundle must contain 11 keys, but currently contains %d keys: %s", Integer.valueOf(bundle.keySet().size()), bundle.keySet() //$NON-NLS-1$
+                                                                                                                                                                       .toString()));
+            }
+            return false;
+        }
         
         /*
          * Make sure the extra is the correct type
