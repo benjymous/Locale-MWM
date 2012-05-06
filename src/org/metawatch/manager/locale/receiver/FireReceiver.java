@@ -93,9 +93,14 @@ public final class FireReceiver extends BroadcastReceiver {
 					Bundle b = new Bundle();
 					b.putString("title", bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_TITLE));
 					b.putString("text", bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_MESSAGE));
-					b.putInt("vibrate_on", 500);
-					b.putInt("vibrate_off", 200);
-					b.putInt("vibrate_cycles", 2);
+					
+	                if( bundle.containsKey(PluginBundleManager.BUNDLE_EXTRA_BOOLEAN_VIBRATE) )
+	                {
+	                	b.putInt("vibrate_on", bundle.getInt(PluginBundleManager.BUNDLE_EXTRA_INT_VIBRATE_ON));
+	                	b.putInt("vibrate_off",bundle.getInt(PluginBundleManager.BUNDLE_EXTRA_INT_VIBRATE_OFF));
+	                	b.putInt("vibrate_cycles", bundle.getInt(PluginBundleManager.BUNDLE_EXTRA_INT_VIBRATE_CYCLES));
+	                }
+					
 					broadcast.putExtras(b);
 	
 					context.sendBroadcast(broadcast);
@@ -107,6 +112,19 @@ public final class FireReceiver extends BroadcastReceiver {
 					
 					createAndSendWidget(context, icon, widgetId, widgetLabel);
 					cacheWidget(context, icon, widgetId, widgetLabel);
+					
+	                if( bundle.containsKey(PluginBundleManager.BUNDLE_EXTRA_BOOLEAN_VIBRATE) )
+	                {
+						Intent broadcast = new Intent("org.metawatch.manager.VIBRATE");
+						Bundle b = new Bundle();
+						
+	                	b.putInt("vibrate_on", bundle.getInt(PluginBundleManager.BUNDLE_EXTRA_INT_VIBRATE_ON));
+	                	b.putInt("vibrate_off",bundle.getInt(PluginBundleManager.BUNDLE_EXTRA_INT_VIBRATE_OFF));
+	                	b.putInt("vibrate_cycles", bundle.getInt(PluginBundleManager.BUNDLE_EXTRA_INT_VIBRATE_CYCLES));
+	                	
+						broadcast.putExtras(b);						
+						context.sendBroadcast(broadcast);
+	                }
 				}
 				
 			}

@@ -70,7 +70,35 @@ public final class PluginBundleManager
      * String icon of widget.
      */
     public static final String BUNDLE_EXTRA_STRING_WIDGET_ICON = "org.metawatch.manager.locale.extra.STRING_WIDGET_ICON"; //$NON-NLS-1$
-    
+  
+    /**
+     * Type: {@code String}
+     * <p>
+     * Whether vibration is enabled for the event.
+     */
+    public static final String BUNDLE_EXTRA_BOOLEAN_VIBRATE = "org.metawatch.manager.locale.extra.BOOLEAN_VIBRATE"; //$NON-NLS-1$
+ 
+    /**
+     * Type: {@code String}
+     * <p>
+     * Whether vibration is enabled for the event.
+     */
+    public static final String BUNDLE_EXTRA_INT_VIBRATE_ON = "org.metawatch.manager.locale.extra.INT_VIBRATE_ON"; //$NON-NLS-1$
+ 
+    /**
+     * Type: {@code String}
+     * <p>
+     * Whether vibration is enabled for the event.
+     */
+    public static final String BUNDLE_EXTRA_INT_VIBRATE_OFF = "org.metawatch.manager.locale.extra.INT_VIBRATE_OFF"; //$NON-NLS-1$
+ 
+    /**
+     * Type: {@code String}
+     * <p>
+     * Whether vibration is enabled for the event.
+     */
+    public static final String BUNDLE_EXTRA_INT_VIBRATE_CYCLES = "org.metawatch.manager.locale.extra.INT_VIBRATE_CYCLES"; //$NON-NLS-1$
+ 
     
     /**
      * Type: {@code int}
@@ -164,15 +192,15 @@ public final class PluginBundleManager
          * error message is more useful. (E.g. the caller will see what extras are missing, rather than just a message that there
          * is the wrong number).
          */
-        if (7 != bundle.keySet().size())
-        {
-            if (Constants.IS_LOGGABLE)
-            {
-                Log.e(Constants.LOG_TAG, String.format("bundle must contain 7 keys, but currently contains %d keys: %s", Integer.valueOf(bundle.keySet().size()), bundle.keySet() //$NON-NLS-1$
-                                                                                                                                                                       .toString()));
-            }
-            return false;
-        }
+        //if (11 != bundle.keySet().size())
+        //{
+        //    if (Constants.IS_LOGGABLE)
+        //    {
+        //        Log.e(Constants.LOG_TAG, String.format("bundle must contain 11 keys, but currently contains %d keys: %s", Integer.valueOf(bundle.keySet().size()), bundle.keySet() //$NON-NLS-1$
+        //                                                                                                                                                               .toString()));
+        //    }
+        //    return false;
+        //}
         
         /*
          * Make sure the extra is the correct type

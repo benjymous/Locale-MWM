@@ -12,6 +12,7 @@ package org.metawatch.manager.locale.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Resources.NotFoundException;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
@@ -133,7 +135,13 @@ public final class EditActivity extends Activity
                 ((EditText) findViewById(R.id.text2)).setText(forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_TITLE));
                 ((EditText) findViewById(R.id.text3)).setText(forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_ID));
                 ((EditText) findViewById(R.id.text4)).setText(forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_LABEL));
-
+                
+          
+            	((CheckBox) findViewById(R.id.checkBox1)).setChecked(forwardedBundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOLEAN_VIBRATE));
+            	((EditText) findViewById(R.id.edit_vib_on)).setText(String.valueOf(forwardedBundle.getInt(PluginBundleManager.BUNDLE_EXTRA_INT_VIBRATE_ON)));
+                ((EditText) findViewById(R.id.edit_vib_off)).setText(String.valueOf(forwardedBundle.getInt(PluginBundleManager.BUNDLE_EXTRA_INT_VIBRATE_OFF)));
+                ((EditText) findViewById(R.id.edit_vib_cycles)).setText(String.valueOf(forwardedBundle.getInt(PluginBundleManager.BUNDLE_EXTRA_INT_VIBRATE_CYCLES)));
+                
                 String type = forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_TYPE);
                 
                 if(type.equals("notification")) {
@@ -185,6 +193,11 @@ public final class EditActivity extends Activity
             
             final String type = ((RadioButton) findViewById(R.id.radioButton1)).isChecked() ? "notification" : "widget";
             
+            
+            final Boolean vibrate = ((CheckBox) findViewById(R.id.checkBox1)).isChecked();
+            final Integer vibrateOn = tryGetValue(R.id.edit_vib_on);
+            final Integer vibrateOff = tryGetValue(R.id.edit_vib_off);
+            final Integer vibrateRepeat = tryGetValue(R.id.edit_vib_cycles);
            
             /*
              * This is the result Intent to Locale
@@ -209,6 +222,11 @@ public final class EditActivity extends Activity
             resultBundle.putString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_ID, widgetId);
             resultBundle.putString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_LABEL, widgetLabel);
             resultBundle.putString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_ICON, widgetIcon);
+            
+            resultBundle.putBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOLEAN_VIBRATE, vibrate);
+            resultBundle.putInt(PluginBundleManager.BUNDLE_EXTRA_INT_VIBRATE_ON, vibrateOn);
+            resultBundle.putInt(PluginBundleManager.BUNDLE_EXTRA_INT_VIBRATE_OFF, vibrateOff);
+            resultBundle.putInt(PluginBundleManager.BUNDLE_EXTRA_INT_VIBRATE_CYCLES, vibrateRepeat);
 
             resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE, resultBundle);
 
@@ -262,6 +280,18 @@ public final class EditActivity extends Activity
     
 
         super.finish();
+    }
+    
+    private int tryGetValue(int resId)
+    {
+    	try 
+    	{
+    		return Integer.decode( ((EditText) findViewById(resId)).getText().toString() );
+    	}
+    	catch(java.lang.NumberFormatException ex)
+    	{
+    		return 0;
+    	}
     }
 
     /**

@@ -80,8 +80,54 @@
 		        android:layout_marginTop="8dip"
 		        android:hint="@string/value_hint" />
 	     
-	     </RadioGroup>
+	     
+	     
+	    <CheckBox
+        android:id="@+id/checkBox1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/vibrate_label" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <EditText
+            android:id="@+id/edit_vib_on"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/vibrate_on"
+            android:inputType="number"
+            android:value = "250" />
+
+        <EditText
+            android:id="@+id/edit_vib_off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/vibrate_off"
+            android:inputType="number"
+            android:value = "50"  />
+
+        <EditText
+            android:id="@+id/edit_vib_cycles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/vibrate_cycles"
+            android:inputType="number" 
+            android:value = "1" />
+
+    </LinearLayout>
+    
+    </RadioGroup>
      
 	</ScrollView>
+
+    
 
 </LinearLayout>

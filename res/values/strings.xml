@@ -37,5 +37,12 @@
     
     <!-- Hint text in the title edit text -->
     <string name="value_hint">widget text</string>
+    
+    <!-- Label for the vibrate pattern checkbox -->
+    <string name="vibrate_label">Vibrate</string>
+    
+    <string name="vibrate_on">on</string>
+    <string name="vibrate_off">off</string>
+    <string name="vibrate_cycles">cycles</string>
 
 </resources>
