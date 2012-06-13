@@ -12,7 +12,6 @@ package org.metawatch.manager.locale.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.Resources.NotFoundException;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;

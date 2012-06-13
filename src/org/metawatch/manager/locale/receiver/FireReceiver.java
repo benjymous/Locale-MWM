@@ -156,8 +156,7 @@ public final class FireReceiver extends BroadcastReceiver {
 						StringBuffer fileContent = new StringBuffer("");
 
 						byte[] buffer = new byte[1024];
-						int length;
-						while ((length = fis.read(buffer)) != -1) {
+						while ((fis.read(buffer)) != -1) {
 						    fileContent.append(new String(buffer));
 						}
 						
@@ -237,6 +236,8 @@ public final class FireReceiver extends BroadcastReceiver {
 		paintSmall.setTypeface(typeface);
 		paintSmall.setTextAlign(Align.CENTER);
 		
+		label = label.trim();
+		
 		// Create 16x16 widget
 		{
 			Bitmap iconBmp = loadBitmapFromAssets(context, icon+"_10.bmp");
@@ -244,8 +245,6 @@ public final class FireReceiver extends BroadcastReceiver {
 			Bitmap bitmap = Bitmap.createBitmap(16, 16, Bitmap.Config.RGB_565);
 			Canvas canvas = new Canvas(bitmap);
 			canvas.drawColor(Color.WHITE);
-			
-			label = label.trim();
 			
 			int y = label.length()==0 ? 3 : 0;
 			

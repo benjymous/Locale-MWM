@@ -19,8 +19,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.metawatch.manager.locale"
     android:installLocation="internalOnly"
-    android:versionCode="3010"
-    android:versionName="3.0.1" >
+    android:versionCode="3020"
+    android:versionName="3.0.2" >
 
     <!-- Locale 3.x supports API 8 or greater, while Locale 1.x supports API 3 or greater.  Although plug-in developers can support older versions of Android, we recommend targeting SDK 8 or greater -->
     <uses-sdk
