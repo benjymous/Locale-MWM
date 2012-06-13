@@ -245,6 +245,8 @@ public final class FireReceiver extends BroadcastReceiver {
 			Canvas canvas = new Canvas(bitmap);
 			canvas.drawColor(Color.WHITE);
 			
+			label = label.trim();
+			
 			int y = label.length()==0 ? 3 : 0;
 			
 			canvas.drawBitmap(iconBmp, 2, y, null);					
