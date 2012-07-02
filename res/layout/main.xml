@@ -50,6 +50,13 @@
 		        android:layout_marginRight="6dip"
 		        android:layout_marginTop="8dip"
 		        android:hint="@string/message_hint" />
+		    
+		    <CheckBox
+		        android:id="@+id/checkBox2"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/sticky_label"
+		        android:checked="true" />
 		
 		    <RadioButton
 		        android:id="@+id/radioButton2"

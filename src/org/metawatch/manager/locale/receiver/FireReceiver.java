@@ -93,8 +93,9 @@ public final class FireReceiver extends BroadcastReceiver {
 					Bundle b = new Bundle();
 					b.putString("title", bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_TITLE));
 					b.putString("text", bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_MESSAGE));
+					b.putBoolean("sticky", bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOLEAN_STICKY, true));
 					
-	                if( bundle.containsKey(PluginBundleManager.BUNDLE_EXTRA_BOOLEAN_VIBRATE) )
+	                if( bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOLEAN_VIBRATE, false) )
 	                {
 	                	b.putInt("vibrate_on", bundle.getInt(PluginBundleManager.BUNDLE_EXTRA_INT_VIBRATE_ON));
 	                	b.putInt("vibrate_off",bundle.getInt(PluginBundleManager.BUNDLE_EXTRA_INT_VIBRATE_OFF));
@@ -113,7 +114,7 @@ public final class FireReceiver extends BroadcastReceiver {
 					createAndSendWidget(context, icon, widgetId, widgetLabel);
 					cacheWidget(context, icon, widgetId, widgetLabel);
 					
-	                if( bundle.containsKey(PluginBundleManager.BUNDLE_EXTRA_BOOLEAN_VIBRATE) )
+					if( bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOLEAN_VIBRATE, false) )
 	                {
 						Intent broadcast = new Intent("org.metawatch.manager.VIBRATE");
 						Bundle b = new Bundle();
