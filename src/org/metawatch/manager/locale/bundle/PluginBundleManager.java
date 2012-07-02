@@ -81,21 +81,21 @@ public final class PluginBundleManager
     /**
      * Type: {@code String}
      * <p>
-     * Whether vibration is enabled for the event.
+     * How long the watch should vibrate in each cycle (in milliseconds).
      */
     public static final String BUNDLE_EXTRA_INT_VIBRATE_ON = "org.metawatch.manager.locale.extra.INT_VIBRATE_ON"; //$NON-NLS-1$
  
     /**
      * Type: {@code String}
      * <p>
-     * Whether vibration is enabled for the event.
+     * How long the watch should pause between vibrations in each cycle (in milliseconds).
      */
     public static final String BUNDLE_EXTRA_INT_VIBRATE_OFF = "org.metawatch.manager.locale.extra.INT_VIBRATE_OFF"; //$NON-NLS-1$
  
     /**
      * Type: {@code String}
      * <p>
-     * Whether vibration is enabled for the event.
+     * How many vibration cycles the watch should make.
      */
     public static final String BUNDLE_EXTRA_INT_VIBRATE_CYCLES = "org.metawatch.manager.locale.extra.INT_VIBRATE_CYCLES"; //$NON-NLS-1$
  
