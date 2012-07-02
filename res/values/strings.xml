@@ -32,6 +32,9 @@
     <!-- Hint text in the title edit text -->
     <string name="title_hint">MetaWatch notification title</string>
     
+    <!-- Label for the sticky checkbox -->
+    <string name="sticky_label">Sticky notification</string>
+    
     <!-- Hint text in the message edit text -->
     <string name="id_hint">widget unique id</string>
     

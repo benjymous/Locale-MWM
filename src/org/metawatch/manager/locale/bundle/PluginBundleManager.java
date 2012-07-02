@@ -53,6 +53,13 @@ public final class PluginBundleManager
     /**
      * Type: {@code String}
      * <p>
+     * Whether the notification should be sticky.
+     */
+    public static final String BUNDLE_EXTRA_BOOLEAN_STICKY = "org.metawatch.manager.locale.extra.BOOLEAN_STICKY"; //$NON-NLS-1$
+    
+    /**
+     * Type: {@code String}
+     * <p>
      * String id of widget.
      */
     public static final String BUNDLE_EXTRA_STRING_WIDGET_ID = "org.metawatch.manager.locale.extra.STRING_WIDGET_ID"; //$NON-NLS-1$
@@ -192,11 +199,11 @@ public final class PluginBundleManager
          * error message is more useful. (E.g. the caller will see what extras are missing, rather than just a message that there
          * is the wrong number).
          */
-        if (11 != bundle.keySet().size())
+        if (bundle.keySet().size() != 11 && bundle.keySet().size() != 12)
         {
             if (Constants.IS_LOGGABLE)
             {
-                Log.e(Constants.LOG_TAG, String.format("bundle must contain 11 keys, but currently contains %d keys: %s", Integer.valueOf(bundle.keySet().size()), bundle.keySet() //$NON-NLS-1$
+                Log.e(Constants.LOG_TAG, String.format("bundle must contain 11 or 12 keys, but currently contains %d keys: %s", Integer.valueOf(bundle.keySet().size()), bundle.keySet() //$NON-NLS-1$
                                                                                                                                                                        .toString()));
             }
             return false;

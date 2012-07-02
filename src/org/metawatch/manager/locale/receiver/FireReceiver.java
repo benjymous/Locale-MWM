@@ -93,6 +93,7 @@ public final class FireReceiver extends BroadcastReceiver {
 					Bundle b = new Bundle();
 					b.putString("title", bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_TITLE));
 					b.putString("text", bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_MESSAGE));
+					b.putBoolean("sticky", bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOLEAN_STICKY, true));
 					
 	                if( bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOLEAN_VIBRATE, false) )
 	                {
