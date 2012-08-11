@@ -8,6 +8,7 @@
 ** distributed under the License is distributed on an "AS IS" BASIS,
 ** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 ** See the License for the specific language governing permissions and
+<<<<<<< HEAD
 ** limitations under the License.-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
@@ -18,7 +19,8 @@
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-        <RadioGroup
+
+        <RadioGroup
             android:id="@+id/group1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -55,6 +57,13 @@
                     android:layout_marginRight="6dip"
                     android:layout_marginTop="8dip"
                     android:hint="@string/message_hint" />
+
+        <CheckBox
+            android:id="@+id/checkBox3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+ 	 	           android:text="@string/sticky_label" 	 	
+            android:checked="true" />
 
             </LinearLayout>
             <RadioButton
@@ -106,7 +115,8 @@
                 android:layout_marginLeft="30sp"
                 android:text="@string/silent_checkbox" />
 
-            <CheckBox
+
+            <CheckBox
                 android:id="@+id/checkBox1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

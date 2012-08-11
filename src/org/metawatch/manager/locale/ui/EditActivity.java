@@ -133,9 +133,9 @@ public final class EditActivity extends Activity
             {
                 ((EditText) findViewById(R.id.text1)).setText(forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_MESSAGE));
                 ((EditText) findViewById(R.id.text2)).setText(forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_TITLE));
+            	((CheckBox) findViewById(R.id.checkBox3)).setChecked(forwardedBundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOLEAN_STICKY, true));
                 ((EditText) findViewById(R.id.text3)).setText(forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_ID));
                 ((EditText) findViewById(R.id.text4)).setText(forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_LABEL));
-                
           
             	((CheckBox) findViewById(R.id.checkBox1)).setChecked(forwardedBundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOLEAN_VIBRATE));
             	((EditText) findViewById(R.id.edit_vib_on)).setText(String.valueOf(forwardedBundle.getInt(PluginBundleManager.BUNDLE_EXTRA_INT_VIBRATE_ON)));
@@ -195,6 +195,7 @@ public final class EditActivity extends Activity
         {
             final String message = ((EditText) findViewById(R.id.text1)).getText().toString();
             final String title = ((EditText) findViewById(R.id.text2)).getText().toString();
+            final Boolean sticky = ((CheckBox) findViewById(R.id.checkBox3)).isChecked();
             
             final String widgetId = ((EditText) findViewById(R.id.text3)).getText().toString();
             final String widgetLabel = ((EditText) findViewById(R.id.text4)).getText().toString();
@@ -243,6 +244,7 @@ public final class EditActivity extends Activity
             
             resultBundle.putString(PluginBundleManager.BUNDLE_EXTRA_STRING_MESSAGE, message);
             resultBundle.putString(PluginBundleManager.BUNDLE_EXTRA_STRING_TITLE, title);
+            resultBundle.putBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOLEAN_STICKY, sticky);
             
             resultBundle.putString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_ID, widgetId);
             resultBundle.putString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_LABEL, widgetLabel);
