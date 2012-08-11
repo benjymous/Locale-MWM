@@ -74,6 +74,14 @@ public final class PluginBundleManager
     /**
      * Type: {@code String}
      * <p>
+     * Whether silent mode is enabled or disabled.
+     */
+    public static final String BUNDLE_EXTRA_BOOLEAN_SILENTMODE = "org.metawatch.manager.locale.extra.BOOLEAN_SILENTMODE"; //$NON-NLS-1$
+     
+    
+    /**
+     * Type: {@code String}
+     * <p>
      * Whether vibration is enabled for the event.
      */
     public static final String BUNDLE_EXTRA_BOOLEAN_VIBRATE = "org.metawatch.manager.locale.extra.BOOLEAN_VIBRATE"; //$NON-NLS-1$
@@ -183,21 +191,6 @@ public final class PluginBundleManager
             if (Constants.IS_LOGGABLE)
             {
                 Log.e(Constants.LOG_TAG, String.format("bundle must contain extra %s", BUNDLE_EXTRA_INT_VERSION_CODE)); //$NON-NLS-1$
-            }
-            return false;
-        }
-
-        /*
-         * Make sure the correct number of extras exist. Run this test after checking for specific Bundle extras above so that the
-         * error message is more useful. (E.g. the caller will see what extras are missing, rather than just a message that there
-         * is the wrong number).
-         */
-        if (11 != bundle.keySet().size())
-        {
-            if (Constants.IS_LOGGABLE)
-            {
-                Log.e(Constants.LOG_TAG, String.format("bundle must contain 11 keys, but currently contains %d keys: %s", Integer.valueOf(bundle.keySet().size()), bundle.keySet() //$NON-NLS-1$
-                                                                                                                                                                       .toString()));
             }
             return false;
         }

@@ -126,6 +126,17 @@ public final class FireReceiver extends BroadcastReceiver {
 						context.sendBroadcast(broadcast);
 	                }
 				}
+				else if (type.equals("silentmode")) {
+					final boolean enabled = bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOLEAN_SILENTMODE);
+					
+					Intent broadcast = new Intent("org.metawatch.manager.SILENTMODE");
+					Bundle b = new Bundle();
+					
+					b.putBoolean("enabled", enabled);
+					
+					broadcast.putExtras(b);						
+					context.sendBroadcast(broadcast);
+				}
 				
 			}
 			else

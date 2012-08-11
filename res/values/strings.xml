@@ -25,6 +25,12 @@
     <!-- widget radio label -->
     <string name="widget_label">Widget</string>
     
+    <!-- sleepmode radio label -->
+    <string name="silent_label">Silent Mode</string>
+    
+    <!-- sleepmode checkbox label -->
+    <string name="silent_checkbox">Silent mode enabled?</string>
+    
 
     <!-- Hint text in the message edit text -->
     <string name="message_hint">MetaWatch notification message</string>

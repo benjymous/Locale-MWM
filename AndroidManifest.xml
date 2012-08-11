@@ -48,7 +48,7 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.Locale.Dark"
         android:uiOptions="splitActionBarWhenNarrow" 
-        android:debuggable="true">
+        android:debuggable="false">
 
         <!--
              This optional Activity comes from the Locale Developer Platform Android Library Project. If this plug-in does 

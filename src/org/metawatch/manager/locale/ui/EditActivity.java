@@ -24,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -140,16 +141,26 @@ public final class EditActivity extends Activity
             	((EditText) findViewById(R.id.edit_vib_on)).setText(String.valueOf(forwardedBundle.getInt(PluginBundleManager.BUNDLE_EXTRA_INT_VIBRATE_ON)));
                 ((EditText) findViewById(R.id.edit_vib_off)).setText(String.valueOf(forwardedBundle.getInt(PluginBundleManager.BUNDLE_EXTRA_INT_VIBRATE_OFF)));
                 ((EditText) findViewById(R.id.edit_vib_cycles)).setText(String.valueOf(forwardedBundle.getInt(PluginBundleManager.BUNDLE_EXTRA_INT_VIBRATE_CYCLES)));
+         
+            	((CheckBox) findViewById(R.id.checkBox2)).setChecked(forwardedBundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOLEAN_SILENTMODE));
+
                 
                 String type = forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_TYPE);
                 
                 if(type.equals("notification")) {
                 	((RadioButton) findViewById(R.id.radioButton1)).setChecked(true);
                 	((RadioButton) findViewById(R.id.radioButton2)).setChecked(false);
+                	((RadioButton) findViewById(R.id.radioButton3)).setChecked(false);
                 }
-                else {
+                else if(type.equals("widget")){
                 	((RadioButton) findViewById(R.id.radioButton1)).setChecked(false);
                 	((RadioButton) findViewById(R.id.radioButton2)).setChecked(true);
+                	((RadioButton) findViewById(R.id.radioButton3)).setChecked(false);
+                }
+                else if(type.equals("silentmode")){
+                	((RadioButton) findViewById(R.id.radioButton1)).setChecked(false);
+                	((RadioButton) findViewById(R.id.radioButton2)).setChecked(false);
+                	((RadioButton) findViewById(R.id.radioButton3)).setChecked(true);
                 }
                 
                 String[] iconNames = getResources().getStringArray(R.array.icons);
@@ -189,14 +200,29 @@ public final class EditActivity extends Activity
             final String widgetLabel = ((EditText) findViewById(R.id.text4)).getText().toString();
 
             final String widgetIcon = ((Spinner) findViewById(R.id.spinner1)).getSelectedItem().toString();
-            
-            final String type = ((RadioButton) findViewById(R.id.radioButton1)).isChecked() ? "notification" : "widget";
-            
+                        
+            String type = "";
+            RadioGroup group = (RadioGroup) findViewById(R.id.group1);
+            switch( group.getCheckedRadioButtonId() ) {
+            case R.id.radioButton1:
+            	type = "notification";
+            	break;
+            	
+            case R.id.radioButton2:
+            	type = "widget";
+            	break;
+            	
+            case R.id.radioButton3:
+            	type = "silentmode";
+            	break;
+            }
             
             final Boolean vibrate = ((CheckBox) findViewById(R.id.checkBox1)).isChecked();
             final Integer vibrateOn = tryGetValue(R.id.edit_vib_on);
             final Integer vibrateOff = tryGetValue(R.id.edit_vib_off);
             final Integer vibrateRepeat = tryGetValue(R.id.edit_vib_cycles);
+            
+            final Boolean silentEnabled = ((CheckBox) findViewById(R.id.checkBox2)).isChecked();
            
             /*
              * This is the result Intent to Locale
@@ -221,6 +247,8 @@ public final class EditActivity extends Activity
             resultBundle.putString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_ID, widgetId);
             resultBundle.putString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_LABEL, widgetLabel);
             resultBundle.putString(PluginBundleManager.BUNDLE_EXTRA_STRING_WIDGET_ICON, widgetIcon);
+            
+            resultBundle.putBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOLEAN_SILENTMODE, silentEnabled);
             
             resultBundle.putBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOLEAN_VIBRATE, vibrate);
             resultBundle.putInt(PluginBundleManager.BUNDLE_EXTRA_INT_VIBRATE_ON, vibrateOn);
@@ -252,7 +280,7 @@ public final class EditActivity extends Activity
                 }
         
             }
-            else {
+            else if(type.equals("widget")) {
             	builder.append(widgetIcon);
             	builder.append(" : ");
             	builder.append(widgetLabel);
@@ -261,8 +289,10 @@ public final class EditActivity extends Activity
                 {
                     setResult(RESULT_CANCELED);
                 }
-                
-                
+            }
+            else if(type.equals("silentmode")) {
+            	builder.append("Silent Mode : ");
+            	builder.append(silentEnabled ? "Enabled" : "Disabled");
             }
             
             if (builder.length() > getResources().getInteger(org.metawatch.manager.locale.R.integer.twofortyfouram_locale_maximum_blurb_length))

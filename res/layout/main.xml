@@ -8,8 +8,7 @@
 ** distributed under the License is distributed on an "AS IS" BASIS,
 ** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 ** See the License for the specific language governing permissions and
-** limitations under the License.
--->
+** limitations under the License.-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -19,115 +18,137 @@
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-
-
-
-	    <RadioGroup android:layout_width="fill_parent"
-	                android:layout_height="wrap_content" android:orientation="vertical"
-	                android:id="@+id/group1">
-	    
-		    <RadioButton
-		        android:id="@+id/radioButton1"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:text="@string/notification_label"
-		        android:checked="true" />
-		
-		    <EditText
-		        android:id="@+id/text2"
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:layout_marginLeft="6dip"
-		        android:layout_marginRight="6dip"
-		        android:layout_marginTop="8dip"
-		        android:hint="@string/title_hint" />
-		    
-		    <EditText
-		        android:id="@+id/text1"
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:layout_marginLeft="6dip"
-		        android:layout_marginRight="6dip"
-		        android:layout_marginTop="8dip"
-		        android:hint="@string/message_hint" />
-		
-		    <RadioButton
-		        android:id="@+id/radioButton2"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:text="@string/widget_label" />
-
-		    <Spinner
-		        android:id="@+id/spinner1"
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content" />
-		    
-		    <EditText
-		        android:id="@+id/text3"
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:layout_marginLeft="6dip"
-		        android:layout_marginRight="6dip"
-		        android:layout_marginTop="8dip"
-		        android:hint="@string/id_hint" /> 
-		    
-		     <EditText
-		        android:id="@+id/text4"
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:layout_marginLeft="6dip"
-		        android:layout_marginRight="6dip"
-		        android:layout_marginTop="8dip"
-		        android:hint="@string/value_hint" />
-	     
-	     
-	     
-	    <CheckBox
-        android:id="@+id/checkBox1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/vibrate_label" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <EditText
-            android:id="@+id/edit_vib_on"
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/group1"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="@string/vibrate_on"
-            android:inputType="number"
-            android:value = "250" />
+            android:orientation="vertical" >
 
-        <EditText
-            android:id="@+id/edit_vib_off"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="@string/vibrate_off"
-            android:inputType="number"
-            android:value = "50"  />
+            <RadioButton
+                android:id="@+id/radioButton1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/notification_label" />
 
-        <EditText
-            android:id="@+id/edit_vib_cycles"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="@string/vibrate_cycles"
-            android:inputType="number" 
-            android:value = "1" />
+            <LinearLayout
+                android:id="@+id/layout1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30sp"
+                android:orientation="vertical" >
 
-    </LinearLayout>
-    
-    </RadioGroup>
-     
-	</ScrollView>
+                <EditText
+                    android:id="@+id/text2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dip"
+                    android:layout_marginRight="6dip"
+                    android:layout_marginTop="8dip"
+                    android:hint="@string/title_hint" />
+                
+                <EditText
+                    android:id="@+id/text1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dip"
+                    android:layout_marginRight="6dip"
+                    android:layout_marginTop="8dip"
+                    android:hint="@string/message_hint" />
 
-    
+            </LinearLayout>
+            <RadioButton
+                android:id="@+id/radioButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15sp"
+                android:text="@string/widget_label" />
+            <LinearLayout
+                android:id="@+id/layout2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30sp"
+                android:orientation="vertical" >
+                
+                <Spinner
+                    android:id="@+id/spinner1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/text3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dip"
+                    android:layout_marginRight="6dip"
+                    android:layout_marginTop="8dip"
+                    android:hint="@string/id_hint" />
+
+                <EditText
+                    android:id="@+id/text4"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dip"
+                    android:layout_marginRight="6dip"
+                    android:layout_marginTop="8dip"
+                    android:hint="@string/value_hint" />
+            </LinearLayout>
+            <RadioButton
+                android:id="@+id/radioButton3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15sp"
+                android:text="@string/silent_label" />
+            <CheckBox
+                android:id="@+id/checkBox2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30sp"
+                android:text="@string/silent_checkbox" />
+
+            <CheckBox
+                android:id="@+id/checkBox1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30sp"
+                android:text="@string/vibrate_label" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30sp" >
+
+                <EditText
+                    android:id="@+id/edit_vib_on"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/vibrate_on"
+                    android:inputType="number"
+                    android:value="250" />
+
+                <EditText
+                    android:id="@+id/edit_vib_off"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/vibrate_off"
+                    android:inputType="number"
+                    android:value="50" />
+
+                <EditText
+                    android:id="@+id/edit_vib_cycles"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/vibrate_cycles"
+                    android:inputType="number"
+                    android:value="1" />
+            </LinearLayout>
+	</RadioGroup>
+        
+    </ScrollView>
 
 </LinearLayout>
